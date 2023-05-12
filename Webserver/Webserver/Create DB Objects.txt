@@ -1,0 +1,4 @@
+ In PaketManager Console
+ 
+ 1. add-migration initialdatabase
+ 2. Update-database
