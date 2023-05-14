@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Webserver.Migrations
 {
     /// <inheritdoc />
-    public partial class initialdatabase : Migration
+    public partial class intialdatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,7 +37,7 @@ namespace Webserver.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Firstname = table.Column<string>(type: "text", nullable: false),
-                    LastnameUserID = table.Column<int>(type: "integer", nullable: false),
+                    Lastname = table.Column<string>(type: "text", nullable: false),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Role = table.Column<string>(type: "text", nullable: false),
                     PollID = table.Column<int>(type: "integer", nullable: true)
@@ -50,23 +50,12 @@ namespace Webserver.Migrations
                         column: x => x.PollID,
                         principalTable: "Polls",
                         principalColumn: "PollID");
-                    table.ForeignKey(
-                        name: "FK_Users_Users_LastnameUserID",
-                        column: x => x.LastnameUserID,
-                        principalTable: "Users",
-                        principalColumn: "UserID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Polls_AuthorUserID",
                 table: "Polls",
                 column: "AuthorUserID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_LastnameUserID",
-                table: "Users",
-                column: "LastnameUserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_PollID",

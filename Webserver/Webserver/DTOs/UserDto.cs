@@ -1,12 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Webserver.Model
+namespace Webserver.DTOs
 {
-    public class User
+    public class UserDto
     {
-        [Key]
         public int UserID { get; set; }
-        [Required]
 
         public string Email { get; set; }
 
@@ -18,7 +16,5 @@ namespace Webserver.Model
         public DateTime BirthDate { get; set; }
 
         public string Role { get; set; }
-
-
     }
 }

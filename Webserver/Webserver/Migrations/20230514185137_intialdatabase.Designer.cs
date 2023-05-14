@@ -12,8 +12,8 @@ using Webserver.Context;
 namespace Webserver.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    [Migration("20230512170157_initialdatabase")]
-    partial class initialdatabase
+    [Migration("20230514185137_intialdatabase")]
+    partial class intialdatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,8 +76,9 @@ namespace Webserver.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("LastnameUserID")
-                        .HasColumnType("integer");
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int?>("PollID")
                         .HasColumnType("integer");
@@ -87,8 +88,6 @@ namespace Webserver.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("UserID");
-
-                    b.HasIndex("LastnameUserID");
 
                     b.HasIndex("PollID");
 
@@ -108,17 +107,9 @@ namespace Webserver.Migrations
 
             modelBuilder.Entity("Webserver.Model.User", b =>
                 {
-                    b.HasOne("Webserver.Model.User", "Lastname")
-                        .WithMany()
-                        .HasForeignKey("LastnameUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Webserver.Model.Poll", null)
                         .WithMany("Voters")
                         .HasForeignKey("PollID");
-
-                    b.Navigation("Lastname");
                 });
 
             modelBuilder.Entity("Webserver.Model.Poll", b =>
