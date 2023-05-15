@@ -66,5 +66,50 @@ namespace Webserver.Controllers
 
             return Ok(user);
         }
+
+        [HttpPost("/users/login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+
+
+            // Validate the request
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var user = this.context.Users
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+
+            // Check if the user exists in the database
+            //var user = await this.context.GetUserByUsernameAsync(request.Username);
+            var user;
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Invalid username or password" });
+            }
+
+            // Check if the password is correct
+            //var isPasswordValid = await _userService.CheckPasswordAsync(user, request.Password);
+            var isPasswordValid;
+            if (!isPasswordValid)
+            {
+                return Unauthorized(new { message = "Invalid username or password" });
+            }
+
+            // If the credentials are valid, create a JWT token and return it to the client
+           // var token = _jwtService.GenerateToken(user);
+            return Ok(new { token });
+        }
+
     }
 }
