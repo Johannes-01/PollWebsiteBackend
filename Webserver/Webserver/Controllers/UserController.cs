@@ -61,14 +61,22 @@ namespace Webserver.Controllers
         [HttpGet("/users/{id}")]
         public IActionResult GetUser(int id)
         {
-            var user = this.context.Users.FirstOrDefault(user => user.UserID == id);
-
-            if (user == null)
+            if (User.Identity.IsAuthenticated)
             {
-                return NotFound();
-            }
 
-            return Ok(user);
+                var user = this.context.Users.FirstOrDefault(user => user.UserID == id);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }
+            else
+            {
+                return Unauthorized("You are not logged in.");
+            }
         }
 
         [HttpPost("/login")]
