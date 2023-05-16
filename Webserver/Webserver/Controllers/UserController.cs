@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using Webserver.Context;
 using Webserver.DTOs;
 using Webserver.Model;
@@ -67,10 +71,9 @@ namespace Webserver.Controllers
             return Ok(user);
         }
 
-        [HttpPost("/users/login")]
+        [HttpPost("/login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-
 
             // Validate the request
             if (!ModelState.IsValid)
@@ -78,38 +81,43 @@ namespace Webserver.Controllers
                 return BadRequest(ModelState);
             }
 
+            //trying to find a user
             try
             {
-                var user = this.context.Users
-            }
-            catch (Exception)
-            {
+                var user = this.context.Users.SingleOrDefault(x => x.UserName == request.Username && x.Password == request.Password);
+                if(user != null)
+                {
+                    var claim = new List<Claim>()
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+                        new Claim(ClaimTypes.Name, user.UserName),
+                    };
 
-                throw;
-            }
+                    var identity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);
 
+                    var principal = new ClaimsPrincipal(identity);
 
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            // Check if the user exists in the database
-            //var user = await this.context.GetUserByUsernameAsync(request.Username);
-            var user;
-            if (user == null)
-            {
+                    return Ok();
+                }
+
                 return Unauthorized(new { message = "Invalid username or password" });
             }
-
-            // Check if the password is correct
-            //var isPasswordValid = await _userService.CheckPasswordAsync(user, request.Password);
-            var isPasswordValid;
-            if (!isPasswordValid)
+            catch (Exception ex)
             {
-                return Unauthorized(new { message = "Invalid username or password" });
-            }
+                _logger.LogError(ex, "Error trying to login.");
 
-            // If the credentials are valid, create a JWT token and return it to the client
-           // var token = _jwtService.GenerateToken(user);
-            return Ok(new { token });
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error trying to login.: " + ex);
+            }
         }
 
+        //[HttpPost("/logout")]
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        //    return Ok();
+        //}
     }
 }
