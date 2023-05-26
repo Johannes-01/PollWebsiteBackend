@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Webserver.Context;
 using Webserver.DTOs;
@@ -30,7 +28,6 @@ namespace Webserver.Controllers
         [HttpPost("/users/")]
         public async Task<IActionResult> CreateUser(UserDto data){
 
-            var date = data.BirthDate.ToUniversalTime().ToString("yyyy'-'MM'-'dd");
             try
             {
                 var user = context.Users.Add(new User
