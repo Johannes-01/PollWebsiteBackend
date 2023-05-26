@@ -4,14 +4,13 @@ namespace Webserver.DTOs
 {
     public class CreatePollDto
     {
-        [Key]
-        public int PollID { get; set; }
         [Required]
-
         public string Title { get; set; }
-
+        
+        [Required]
         public string Description { get; set; }
-
+        
+        [Required]
         public int Author { get; set; }
 
         [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
@@ -19,7 +18,5 @@ namespace Webserver.DTOs
 
         [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
         public DateTime endDate { get; set; }
-
-        //public int answeredID { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using Webserver.Context;
 namespace Webserver.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    [Migration("20230514185137_intialdatabase")]
-    partial class intialdatabase
+    [Migration("20230526103146_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,26 +33,24 @@ namespace Webserver.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("PollID"));
 
-                    b.Property<int>("AuthorUserID")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("endDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("startDate")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("UserID")
+                        .HasColumnType("integer");
 
                     b.HasKey("PollID");
-
-                    b.HasIndex("AuthorUserID");
 
                     b.ToTable("Polls");
                 });
@@ -65,8 +63,8 @@ namespace Webserver.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("UserID"));
 
-                    b.Property<DateOnly>("BirthDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -80,10 +78,18 @@ namespace Webserver.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int?>("PollID")
                         .HasColumnType("integer");
 
                     b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -92,17 +98,6 @@ namespace Webserver.Migrations
                     b.HasIndex("PollID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Webserver.Model.Poll", b =>
-                {
-                    b.HasOne("Webserver.Model.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("Webserver.Model.User", b =>
