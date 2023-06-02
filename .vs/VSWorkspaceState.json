@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Webserver"
   ],
+  "SelectedNode": "\\Webserver\\Webserver.sln",
   "PreviewInSolutionExplorer": false
 }
