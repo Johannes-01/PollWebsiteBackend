@@ -17,9 +17,8 @@ namespace Webserver.Controllers
         }
 
         [HttpPost("/polls/create")]
-        public async Task<IActionResult> CreatePoll(CreatePollDto data)
+        public async Task<IActionResult> createPoll([FromBody] CreatePollDto data)
         {
-
             var startDate = data.startDate.ToUniversalTime().ToString("yyyy'-'MM'-'dd");
             var endDate = data.startDate.ToUniversalTime().ToString("yyyy'-'MM'-'dd");
 
@@ -35,13 +34,35 @@ namespace Webserver.Controllers
                 });
                 await context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(CreatePoll), new { id = poll.Entity.PollID}, poll.Entity);
+                return CreatedAtAction(nameof(createPoll), new { id = poll.Entity.PollID}, poll.Entity);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating a poll");
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error creating a poll.: " + ex);
+            }
+        }
+
+
+        [HttpGet("/polls/{id}")]
+        public async Task<IActionResult> getPoll(int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+
+                var poll = this.context.Polls.FirstOrDefault(poll => poll.PollID == id);
+
+                if (poll == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(poll);
+            }
+            else
+            {
+                return Unauthorized("You are not logged in.");
             }
         }
     }

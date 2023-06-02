@@ -4,15 +4,13 @@
     {
     public class Answered
     {
-        [Key]
+        [Key, Required]
         public int AnsweredID { get; set;}
+        
         [Required]
-
         public int SurveyID { get; set;}
-        [Required]
 
+        [Required]
         public int[] UserID { get; set;}
-        [Required]
-
         }
     }

@@ -37,6 +37,9 @@ namespace Webserver.Controllers
                     Email = data.Email,
                     BirthDate = data.BirthDate.Date.ToUniversalTime(),
                     Role = data.Role,
+                    UserName = data.Username,
+                    Password = data.Password,
+                    
                 });
                 await context.SaveChangesAsync();
 

@@ -20,3 +20,33 @@ namespace Webserver.DTOs
         public DateTime endDate { get; set; }
     }
 }
+
+/*{
+  "title": "My Poll",
+  "description": "Description of my poll",
+  "author": null,
+  "startDate": null,
+  "endDate": null,
+  "questions": [
+    {
+      "index": 0,
+      "type": 2,
+      "value": [
+        "option 1",
+        "new option",
+        "option 3",
+        "option 2",
+      ],
+    },
+    {
+      "index": 1,
+      "type": 1,
+      "value": "ksldjf lskdj sdlf.",
+    },
+    {
+      "index": 2,
+      "type": 0,
+      "value": "44",
+    },
+  ],
+}*/
