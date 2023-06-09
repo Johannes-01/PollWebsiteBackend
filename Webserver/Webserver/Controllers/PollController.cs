@@ -19,29 +19,37 @@ namespace Webserver.Controllers
         [HttpPost("/polls/create")]
         public async Task<IActionResult> createPoll([FromBody] CreatePollDto data)
         {
-            var startDate = data.startDate.ToUniversalTime().ToString("yyyy'-'MM'-'dd");
-            var endDate = data.startDate.ToUniversalTime().ToString("yyyy'-'MM'-'dd");
-
-            try
+            if (User.Identity.IsAuthenticated)
             {
-                var poll = context.Polls.Add(new Poll
+                var startDate = data.startDate.ToUniversalTime().ToString("yyyy'-'MM'-'dd");
+                var endDate = data.startDate.ToUniversalTime().ToString("yyyy'-'MM'-'dd");
+
+                try
                 {
-                    UserID = data.Author,
-                    Description = data.Description,
-                    Title = data.Title,
-                    StartDate = data.startDate.ToUniversalTime(),
-                    EndDate = data.endDate.ToUniversalTime(),
-                });
-                await context.SaveChangesAsync();
+                    var poll = context.Polls.Add(new Poll
+                    {
+                        UserID = data.Author,
+                        Description = data.Description,
+                        Title = data.Title,
+                        StartDate = data.startDate.ToUniversalTime(),
+                        EndDate = data.endDate.ToUniversalTime(),
+                    });
+                    await context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(createPoll), new { id = poll.Entity.PollID}, poll.Entity);
+                    return CreatedAtAction(nameof(createPoll), new { id = poll.Entity.PollID }, poll.Entity);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error creating a poll");
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error creating a poll.: " + ex);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                _logger.LogError(ex, "Error creating a poll");
-
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating a poll.: " + ex);
+                return Unauthorized("You are not logged in.");
             }
+
         }
 
 
