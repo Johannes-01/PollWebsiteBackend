@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Claims;
 using Webserver.Context;
 
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen();
 // Register DbContext
 builder.Services.AddDbContext<PollDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>
@@ -55,4 +57,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+// Set the specific IP address and port
+app.Run(async (context) =>
+{
+    var serverAddress = context.Request.Host.Host;
+    if (serverAddress == "localhost")
+    {
+        context.Request.Host = new HostString("185.84.80.172", context.Request.Host.Port.Value);
+    }
+});
