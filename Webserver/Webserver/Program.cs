@@ -58,11 +58,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Set the specific IP address and port
-app.Run(async (context) =>
-{
-    var serverAddress = context.Request.Host.Host;
-    if (serverAddress == "localhost")
-    {
-        context.Request.Host = new HostString("185.84.80.172", context.Request.Host.Port.Value);
-    }
-});
+app.Run();
