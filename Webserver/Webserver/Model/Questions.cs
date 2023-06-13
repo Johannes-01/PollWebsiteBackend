@@ -2,8 +2,9 @@
 
 namespace Webserver.Model
 {
-    public class Questions
+    public class Question
     {
+        [Key]
         public int id { get; set; }
         [Required]
 
@@ -11,7 +12,7 @@ namespace Webserver.Model
 
         public int survey_id { get; set; }
 
-        public string description { get; set; }
+        public string? description { get; set; }
 
         public int index { get; set; }
 

@@ -13,6 +13,8 @@ namespace Webserver.Model
         public string Description { get; set; }
 
         public int UserID { get; set; }
+
+        public DateTime Created { get; set; }
         
         public DateTime? StartDate { get; set; }
 

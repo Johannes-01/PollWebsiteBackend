@@ -18,6 +18,8 @@ namespace Webserver.DTOs
 
         [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
         public DateTime endDate { get; set; }
+
+        public List<QuestionsDto>? questions { get; set; }
     }
 }
 

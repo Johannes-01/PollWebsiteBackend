@@ -14,10 +14,17 @@ namespace Webserver.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseSerialColumns();
+            modelBuilder.Entity<QuestionsOnPoll>().HasNoKey();
         }
 
         public DbSet<Poll> Polls { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Question> Questions { get; set; }
+
+        public DbSet<Answers> Answers { get; set; }
+
+        public DbSet<QuestionsOnPoll> questionsOnPolls { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
     namespace Webserver.Model
     {
-    public class Answered
+    public class Answers
     {
         [Key, Required]
         public int AnsweredID { get; set;}

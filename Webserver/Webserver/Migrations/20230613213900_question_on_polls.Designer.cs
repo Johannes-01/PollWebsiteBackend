@@ -12,8 +12,8 @@ using Webserver.Context;
 namespace Webserver.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    [Migration("20230526103146_init")]
-    partial class init
+    [Migration("20230613213900_question_on_polls")]
+    partial class question_on_polls
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,26 @@ namespace Webserver.Migrations
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
 
+            modelBuilder.Entity("Webserver.Model.Answers", b =>
+                {
+                    b.Property<int>("AnsweredID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("AnsweredID"));
+
+                    b.Property<int>("SurveyID")
+                        .HasColumnType("integer");
+
+                    b.Property<int[]>("UserID")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.HasKey("AnsweredID");
+
+                    b.ToTable("Answers");
+                });
+
             modelBuilder.Entity("Webserver.Model.Poll", b =>
                 {
                     b.Property<int>("PollID")
@@ -32,6 +52,9 @@ namespace Webserver.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("PollID"));
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -53,6 +76,46 @@ namespace Webserver.Migrations
                     b.HasKey("PollID");
 
                     b.ToTable("Polls");
+                });
+
+            modelBuilder.Entity("Webserver.Model.Question", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("id"));
+
+                    b.Property<string>("description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("heading")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("index")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("survey_id")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("Webserver.Model.QuestionsOnPoll", b =>
+                {
+                    b.Property<int>("PollId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("integer");
+
+                    b.ToTable("questionsOnPolls");
                 });
 
             modelBuilder.Entity("Webserver.Model.User", b =>
