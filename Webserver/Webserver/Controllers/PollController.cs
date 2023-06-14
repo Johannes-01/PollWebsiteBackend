@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Webserver.Context;
 using Webserver.DTOs;
 using Webserver.Model;
@@ -51,30 +52,6 @@ namespace Webserver.Controllers
 
                     var pollId = poll.Entity.PollID;
 
-                    #region test
-                    /*{
-                      "title": "title",
-                      "description": "description",
-                      "author": 1,
-                      "startDate": "2023-06-13T22:02:40.585Z",
-                      "endDate": "2023-07-13T22:02:40.585Z",
-                      "questions": [
-                        {
-                          "description": "description1",
-                          "heading": "question1",
-                          "index": 1,
-                          "type": 1
-                        },
-                        {
-                          "description": "description2",
-                          "heading": "question2",
-                          "index": 2,
-                          "type": 1
-                        }
-                      ]
-                    }*/
-                    #endregion
-                    // get back of id not correct
                     List<int> questionIds = new List<int>();
 
                     foreach (var question in data.questions)
@@ -127,22 +104,61 @@ namespace Webserver.Controllers
         [HttpGet("/polls/{id}")]
         public async Task<IActionResult> getPoll(int id)
         {
-            // TO Do: Also Return Questions from Poll or write new Query.
-            if (User.Identity.IsAuthenticated)
+            //to do: only let user who created this poll fetch the poll! Same with questions!
+            try
             {
-
-                var poll = this.context.Polls.FirstOrDefault(poll => poll.PollID == id);
-
-                if (poll == null)
+                if (User.Identity.IsAuthenticated)
                 {
-                    return NotFound();
-                }
 
-                return Ok(poll);
+                    var poll = this.context.Polls.FirstOrDefault(poll => poll.PollID == id);
+
+                    if (poll == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return Ok(poll);
+                }
+                else
+                {
+                    return Unauthorized("You are not logged in.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Unauthorized("You are not logged in.");
+                _logger.LogError(ex, "Error trying to fetch polls: " + ex);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error trying to fetch polls: " + ex);
+            }
+
+        }
+
+        [HttpGet("/polls/{id}/questions")]
+        public async Task<IActionResult> getQuestionsFromPoll([FromRoute] int id)
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    var questions = this.context.Questions.Where(questions => questions.survey_id == id).ToList();
+
+                    if (questions == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return Ok(questions);
+                }
+                else
+                {
+                    return Unauthorized("You are not logged in.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error trying to fetch questions: " + ex);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error trying to fetch questions.: " + ex);
             }
         }
     }
