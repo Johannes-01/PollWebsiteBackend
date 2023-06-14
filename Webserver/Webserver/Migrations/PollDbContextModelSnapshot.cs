@@ -106,11 +106,19 @@ namespace Webserver.Migrations
 
             modelBuilder.Entity("Webserver.Model.QuestionsOnPoll", b =>
                 {
+                    b.Property<int>("QuestionOnPollId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("QuestionOnPollId"));
+
                     b.Property<int>("PollId")
                         .HasColumnType("integer");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
+
+                    b.HasKey("QuestionOnPollId");
 
                     b.ToTable("questionsOnPolls");
                 });
@@ -153,11 +161,6 @@ namespace Webserver.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Webserver.Model.Poll", b =>
-                {
-                    b.Navigation("Voters");
                 });
 #pragma warning restore 612, 618
         }

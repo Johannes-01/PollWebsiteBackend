@@ -12,8 +12,8 @@ using Webserver.Context;
 namespace Webserver.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    [Migration("20230613213900_question_on_polls")]
-    partial class question_on_polls
+    [Migration("20230614154858_removeUnwantedPollIdInUsers")]
+    partial class removeUnwantedPollIdInUsers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,9 +145,6 @@ namespace Webserver.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("PollID")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("text");
@@ -157,8 +154,6 @@ namespace Webserver.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("UserID");
-
-                    b.HasIndex("PollID");
 
                     b.ToTable("Users");
                 });

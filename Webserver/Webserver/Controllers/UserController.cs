@@ -64,6 +64,7 @@ namespace Webserver.Controllers
         [HttpGet("/users/{id}")]
         public IActionResult GetUser(int id)
         {
+            //only get information of the user that is authenticated
             if (User.Identity.IsAuthenticated)
             {
 
@@ -87,7 +88,7 @@ namespace Webserver.Controllers
         {
             try
             {
-                HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 return Ok();
             }
             catch (Exception ex)

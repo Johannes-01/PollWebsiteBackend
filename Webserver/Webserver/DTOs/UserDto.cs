@@ -4,8 +4,6 @@ namespace Webserver.DTOs
 {
     public class UserDto
     {
-        public int UserID { get; set; }
-
         public string Email { get; set; }
 
         public string Firstname { get; set; }

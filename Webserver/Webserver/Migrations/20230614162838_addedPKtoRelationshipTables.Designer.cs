@@ -12,8 +12,8 @@ using Webserver.Context;
 namespace Webserver.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    [Migration("20230613213900_question_on_polls")]
-    partial class question_on_polls
+    [Migration("20230614162838_addedPKtoRelationshipTables")]
+    partial class addedPKtoRelationshipTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -109,11 +109,19 @@ namespace Webserver.Migrations
 
             modelBuilder.Entity("Webserver.Model.QuestionsOnPoll", b =>
                 {
+                    b.Property<int>("QuestionOnPollId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("QuestionOnPollId"));
+
                     b.Property<int>("PollId")
                         .HasColumnType("integer");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
+
+                    b.HasKey("QuestionOnPollId");
 
                     b.ToTable("questionsOnPolls");
                 });
@@ -145,9 +153,6 @@ namespace Webserver.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("PollID")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("text");
@@ -157,8 +162,6 @@ namespace Webserver.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("UserID");
-
-                    b.HasIndex("PollID");
 
                     b.ToTable("Users");
                 });

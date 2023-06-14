@@ -18,8 +18,6 @@ namespace Webserver.Model
         
         public DateTime? StartDate { get; set; }
 
-        public DateTime? EndDate { get; set; }
-    
-        public User[] Voters { get; set; }
+        public DateTime? EndDate { get; set; }    
     }
 }

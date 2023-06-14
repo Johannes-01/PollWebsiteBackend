@@ -14,7 +14,6 @@ namespace Webserver.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseSerialColumns();
-            modelBuilder.Entity<QuestionsOnPoll>().HasNoKey();
         }
 
         public DbSet<Poll> Polls { get; set; }

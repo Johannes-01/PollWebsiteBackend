@@ -2,6 +2,9 @@
 
     namespace Webserver.Model
     {
+    /// <summary>
+    /// Function as a votes relationship table
+    /// </summary>
     public class Answers
     {
         [Key, Required]

@@ -24,6 +24,11 @@ namespace Webserver.Controllers
         [HttpPost("/polls/create")]
         public async Task<IActionResult> createPoll([FromBody] CreatePollDto data)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (User.Identity.IsAuthenticated)
             {
                 var startDate = data.startDate.ToUniversalTime().ToString("yyyy'-'MM'-'dd");
@@ -76,11 +81,11 @@ namespace Webserver.Controllers
                     {
                         var q = context.Questions.Add(new Question
                         {
-                            description = data.questions[0].ToString(),
-                            heading = data.questions[1].ToString(),
-                            index = data.questions[2].Index,
+                            description = question.Description,
+                            heading = question.Heading,
+                            index = question.Index,
                             survey_id = pollId,
-                            type = data.questions[4].Type,
+                            type = question.Type,
                         });
 
                         context.Questions.Add(q.Entity);
@@ -90,7 +95,7 @@ namespace Webserver.Controllers
                         questionIds.Add(questionId);
                     }
 
-                    // Get back both ids to write it in the QuestionsonPoll table.
+                    // Get back both ids to write it in the QuestionsOnPoll table.
                     foreach (var questionId in questionIds)
                     {
                         var entry = context.questionsOnPolls.Add(new QuestionsOnPoll

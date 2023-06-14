@@ -4,6 +4,9 @@ namespace Webserver.Model
 {
     public class QuestionsOnPoll
     {
+        [Key, Required]
+        public int QuestionOnPollId { get; set; }
+
         [Required]
         public int PollId { get; set; }
 
