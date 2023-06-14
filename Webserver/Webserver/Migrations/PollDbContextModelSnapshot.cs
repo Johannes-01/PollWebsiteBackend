@@ -142,9 +142,6 @@ namespace Webserver.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("PollID")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("text");
@@ -155,16 +152,7 @@ namespace Webserver.Migrations
 
                     b.HasKey("UserID");
 
-                    b.HasIndex("PollID");
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Webserver.Model.User", b =>
-                {
-                    b.HasOne("Webserver.Model.Poll", null)
-                        .WithMany("Voters")
-                        .HasForeignKey("PollID");
                 });
 
             modelBuilder.Entity("Webserver.Model.Poll", b =>

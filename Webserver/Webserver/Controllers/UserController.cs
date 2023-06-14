@@ -28,6 +28,7 @@ namespace Webserver.Controllers
         [HttpPost("/users/")]
         public async Task<IActionResult> CreateUser(UserDto data){
 
+            // To DO: username darf nicht doppelt vergeben werden!
             try
             {
                 var user = context.Users.Add(new User
