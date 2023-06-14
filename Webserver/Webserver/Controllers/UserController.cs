@@ -19,6 +19,8 @@ namespace Webserver.Controllers
             this._logger = logger;
         }
 
+        /*
+         To DO: logout, from session id get userdata.*/
 
         /// <summary>
         /// Create User
@@ -79,6 +81,22 @@ namespace Webserver.Controllers
             }
         }
 
+        [HttpPost("/logout")]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error trying to logout.");
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error tying to logout.: " + ex);
+            }
+        }
+
         [HttpPost("/login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
@@ -119,13 +137,5 @@ namespace Webserver.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error trying to login.: " + ex);
             }
         }
-
-        //[HttpPost("/logout")]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-        //    return Ok();
-        //}
     }
 }

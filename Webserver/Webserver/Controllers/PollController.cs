@@ -38,8 +38,14 @@ namespace Webserver.Controllers
                         Title = data.Title,
                         StartDate = data.startDate.ToUniversalTime(),
                         EndDate = data.endDate.ToUniversalTime(),
-                        Created = DateTime.Now,
+                        Created = DateTime.UtcNow,
                     });
+
+                    context.Polls.Add(poll.Entity);
+                    await context.SaveChangesAsync();
+
+                    var pollId = poll.Entity.PollID;
+
                     #region test
                     /*{
                       "title": "title",
@@ -64,9 +70,6 @@ namespace Webserver.Controllers
                     }*/
                     #endregion
                     // get back of id not correct
-                    //var pollId = poll.Property("PollId");
-                    var pollId = poll.Property(e => e.PollID).CurrentValue;
-
                     List<int> questionIds = new List<int>();
 
                     foreach (var question in data.questions)
@@ -80,8 +83,10 @@ namespace Webserver.Controllers
                             type = data.questions[4].Type,
                         });
 
-                        context.SaveChangesAsync();
-                        var questionId = q.Property(e => e.id).CurrentValue;
+                        context.Questions.Add(q.Entity);
+                        await context.SaveChangesAsync();
+
+                        var questionId = q.Entity.id;
                         questionIds.Add(questionId);
                     }
 
