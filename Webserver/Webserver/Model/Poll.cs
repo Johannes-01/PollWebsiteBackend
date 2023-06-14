@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webserver.Model
 {
@@ -6,12 +7,14 @@ namespace Webserver.Model
     {
         [Key]
         public int PollID { get; set; }
-        [Required]
 
+        [Required]
         public string Title { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
+        [ForeignKey("UserID")]
         public int UserID { get; set; }
 
         public DateTime Created { get; set; }

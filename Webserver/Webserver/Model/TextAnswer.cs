@@ -3,24 +3,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webserver.Model
 {
-    public class IntAnswer
+    public class TextAnswer
     {
         [ForeignKey("AnsweredID")]
         public int AnsweredID { get; set; }
 
         [Key]
-        public int IntAnswerID { get; set; }
+        public int TextAnswerID { get; set; }
 
         [Required]
-        public int Index { get; set; }
-
-        [Required]
-        public int Value { get; set; }
+        public int SurveyID { get; set; }
 
         [Required]
         public string Heading { get; set; }
 
         [Required]
         public string Description { get; set; }
+
+        [Required]
+        public int Index { get; set; }
     }
 }
