@@ -122,6 +122,7 @@ namespace Webserver.Controllers
         [HttpGet("/polls/{id}")]
         public async Task<IActionResult> getPoll(int id)
         {
+            // TO Do: Also Return Questions from Poll or write new Query.
             if (User.Identity.IsAuthenticated)
             {
 

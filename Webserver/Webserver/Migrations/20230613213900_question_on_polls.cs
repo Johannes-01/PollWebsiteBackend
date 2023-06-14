@@ -85,22 +85,11 @@ namespace Webserver.Migrations
                     Lastname = table.Column<string>(type: "text", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Role = table.Column<string>(type: "text", nullable: false),
-                    PollID = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserID);
-                    table.ForeignKey(
-                        name: "FK_Users_Polls_PollID",
-                        column: x => x.PollID,
-                        principalTable: "Polls",
-                        principalColumn: "PollID");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_PollID",
-                table: "Users",
-                column: "PollID");
         }
 
         /// <inheritdoc />
