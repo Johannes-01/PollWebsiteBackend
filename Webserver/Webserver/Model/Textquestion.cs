@@ -4,18 +4,18 @@
     {
         public class Textquestion
         {
-        [Key]
-        public int TextquestionID { get; set; }
-        [Required]
+            [Key, Required]
+            public int TextquestionID { get; set; }
+        
+            [Required]
+            public int SurveyID { get; set;}
+        
+            [Required]
+            public string Heading { get; set; }
+        
 
-        public int SurveyID { get; set;}
-        [Required]
+            public string Description { get; set; }
 
-        public string Heading { get; set; }
-        [Required]
-
-        public string Description { get; set; }
-
-        public int Index { get; set; }
+            public int Index { get; set; }
         }
     }

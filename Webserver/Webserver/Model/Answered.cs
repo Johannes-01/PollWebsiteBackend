@@ -1,18 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
-    namespace Webserver.Model
+namespace Webserver.Model
     {
     public class Answered
     {
-        [Key]
+        [Key, Required]
         public int AnsweredID { get; set;}
-        [Required]
 
+        [Required, ForeignKey(nameof(Poll))]
         public int SurveyID { get; set;}
-        [Required]
 
+        [Required, ForeignKey(nameof(UserID))]
         public int[] UserID { get; set;}
-        [Required]
 
+        [Required, NotNull]
+        public Poll Poll { get; set;}
         }
     }

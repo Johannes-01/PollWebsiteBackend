@@ -1,17 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webserver.Model
 {
     public class Poll
     {
-        [Key]
+        [Key, Required]
         public int PollID { get; set; }
-        [Required]
+        
 
         public string Title { get; set; }
 
         public string Description { get; set; }
 
+        [Required, ForeignKey(nameof(UserID))]
         public int UserID { get; set; }
         
         public DateTime? StartDate { get; set; }

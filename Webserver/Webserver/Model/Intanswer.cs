@@ -4,7 +4,7 @@
     {
         public class Intanswer
         {
-        [Key]
+        [Key, Required]
         public int IntanswerID { get; set; }
 
         public int Index { get; set; }

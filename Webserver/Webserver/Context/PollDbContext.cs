@@ -19,5 +19,11 @@ namespace Webserver.Context
         public DbSet<Poll> Polls { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Answered> Answers { get; set;}
+
+        public DbSet<LoginRequest> LoginRequests { get; set; }
+
+
     }
 }

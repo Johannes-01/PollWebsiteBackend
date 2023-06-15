@@ -5,15 +5,15 @@ namespace Webserver.Model
 {
     public class Radioquestionoption
     {
-        [Key]
+        [Key, Required]
         public int RadioquestionoptionID { get; set; }
-        [Required]
         
-        public int RadioquestionID { get; set; }
         [Required]
+        public int RadioquestionID { get; set; }
 
-        public string Value { get; set; }
         [Required, NotNull]
+        public string Value { get; set; }
+
 
         public int Index { get; set; }
     }
