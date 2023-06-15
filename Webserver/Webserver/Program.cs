@@ -28,6 +28,17 @@ builder.Services.AddAuthentication("Cookies")
         options.LogoutPath = "/logout";
     });
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "MyAllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins("https://basis-und-internettechnologien.vercel.app/").AllowAnyHeader();
+    });
+});
+
+
+#if DEBUG
 // Add CORS policy to allow request from any origin 
 builder.Services.AddCors(options =>
 {
@@ -39,10 +50,12 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+#endif
 
 var app = builder.Build();
 
-app.UseCors("AllowAll");
+app.UseCors();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
