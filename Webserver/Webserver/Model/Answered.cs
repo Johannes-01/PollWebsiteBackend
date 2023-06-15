@@ -8,7 +8,7 @@ namespace Webserver.Model
     public class Answers
     {
         [Key]
-        public int AnsweredID { get; set; }
+        public int AnswerID { get; set; }
 
         [Required]
         public int SurveyID { get; set; }

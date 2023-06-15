@@ -19,8 +19,18 @@ namespace Webserver.Controllers
             this._logger = logger;
         }
 
-        /*
-         To DO: logout, from session id get userdata.*/
+        [HttpGet("/getUsernameFromCookie")]
+        public string getUsernameFromSession()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return User.Identity.Name;
+            }
+            else
+            {
+                return "No User is logged in.";
+            }
+        }
 
         /// <summary>
         /// Create User
@@ -30,9 +40,14 @@ namespace Webserver.Controllers
         [HttpPost("/users/")]
         public async Task<IActionResult> CreateUser(UserDto data){
 
-            // To DO: username darf nicht doppelt vergeben werden!
             try
             {
+                var usernames = this.context.Users.Where(users => users.UserName == data.Username).ToList();
+                if (usernames.Any())
+                {
+                    return StatusCode(StatusCodes.Status403Forbidden, "Username already taken.");
+                }
+
                 var user = context.Users.Add(new User
                 {
                     Lastname = data.Lastname,
@@ -60,19 +75,24 @@ namespace Webserver.Controllers
         /// Get a specific User via the ID.
         /// </summary>
         /// <param name="id">The User ID.</param>
-        /// <returns>Returns the User data as Json object.</returns>
+        /// <returns>Returns the User data as Json object, only if the Logged in User is the creator of the poll.</returns>
         [HttpGet("/users/{id}")]
         public IActionResult GetUser(int id)
         {
-            //only get information of the user that is authenticated
             if (User.Identity.IsAuthenticated)
             {
+                var username = getUsernameFromSession();
 
                 var user = this.context.Users.FirstOrDefault(user => user.UserID == id);
 
                 if (user == null)
                 {
                     return NotFound();
+                }
+                
+                if(username != user.UserName)
+                {
+                    return Unauthorized("The User is not allowed to access this poll, because he is not the creator.");
                 }
 
                 return Ok(user);

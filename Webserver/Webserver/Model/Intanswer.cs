@@ -5,8 +5,7 @@ namespace Webserver.Model
 {
     public class IntAnswer
     {
-        [ForeignKey("AnsweredID")]
-        public int AnsweredID { get; set; }
+        public int AnswerID { get; set; }
 
         [Key]
         public int IntAnswerID { get; set; }

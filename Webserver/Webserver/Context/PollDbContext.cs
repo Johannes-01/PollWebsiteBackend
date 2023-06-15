@@ -14,6 +14,8 @@ namespace Webserver.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseSerialColumns();
+            //To Do.
+            //modelBuilder.Entity<IntAnswer>().HasOne(i => i.AnswerID).WithOne().HasForeignKey();
         }
 
         public DbSet<Poll> Polls { get; set; }
