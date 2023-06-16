@@ -5,7 +5,6 @@ namespace Webserver.Model
 {
     public class TextAnswer
     {
-<<<<<<< HEAD:Webserver/Webserver/Model/TextAnswer.cs
         [ForeignKey("AnsweredID")]
         public int AnsweredID { get; set; }
 
@@ -23,7 +22,6 @@ namespace Webserver.Model
 
         [Required]
         public int Index { get; set; }
-=======
         public class Textquestion
         {
             [Key, Required]
@@ -40,6 +38,5 @@ namespace Webserver.Model
 
             public int Index { get; set; }
         }
->>>>>>> New-DTOs:Webserver/Webserver/Model/Textquestion.cs
     }
 }

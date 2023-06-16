@@ -5,7 +5,6 @@ namespace Webserver.Model
 {
     public class IntAnswer
     {
-        {
         public int AnswerID { get; set; }
 
         [Key]
