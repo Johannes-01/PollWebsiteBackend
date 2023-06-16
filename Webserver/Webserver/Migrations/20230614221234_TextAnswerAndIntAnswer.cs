@@ -37,7 +37,7 @@ namespace Webserver.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "textquestions",
+                name: "testanswers",
                 columns: table => new
                 {
                     TextAnswerID = table.Column<int>(type: "integer", nullable: false)
