@@ -54,32 +54,35 @@ namespace Webserver.Controllers
 
                     List<int> questionIds = new List<int>();
 
-                    foreach (var question in data.questions)
+                    if(data.questions != null && data.questions.Count > 0)
                     {
-                        var q = context.Questions.Add(new Question
+                        foreach (var question in data.questions)
                         {
-                            description = question.Description,
-                            heading = question.Heading,
-                            index = question.Index,
-                            survey_id = pollId,
-                            type = question.Type,
-                        });
+                            var q = context.Questions.Add(new Question
+                            {
+                                description = question.Description,
+                                heading = question.Heading,
+                                index = question.Index,
+                                survey_id = pollId,
+                                type = question.Type,
+                            });
 
-                        context.Questions.Add(q.Entity);
-                        await context.SaveChangesAsync();
+                            context.Questions.Add(q.Entity);
+                            await context.SaveChangesAsync();
 
-                        var questionId = q.Entity.id;
-                        questionIds.Add(questionId);
-                    }
+                            var questionId = q.Entity.id;
+                            questionIds.Add(questionId);
+                        }
 
-                    // Get back both ids to write it in the QuestionsOnPoll table.
-                    foreach (var questionId in questionIds)
-                    {
-                        var entry = context.questionsOnPolls.Add(new QuestionsOnPoll
+                        // Get back both ids to write it in the QuestionsOnPoll table.
+                        foreach (var questionId in questionIds)
                         {
-                            PollId = pollId,
-                            QuestionId = questionId,
-                        });
+                            var entry = context.questionsOnPolls.Add(new QuestionsOnPoll
+                            {
+                                PollId = pollId,
+                                QuestionId = questionId,
+                            });
+                        }
                     }
 
                     await context.SaveChangesAsync();
