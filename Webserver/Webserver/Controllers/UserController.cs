@@ -109,7 +109,7 @@ namespace Webserver.Controllers
             try
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return Ok();
+                return Redirect("/login");
             }
             catch (Exception ex)
             {
