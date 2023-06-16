@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webserver.Model
 {
     public class Poll
     {
-        [Key]
+        [Key, Required]
         public int PollID { get; set; }
 
         [Required]

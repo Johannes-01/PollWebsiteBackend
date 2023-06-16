@@ -12,8 +12,8 @@ using Webserver.Context;
 namespace Webserver.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    [Migration("20230613213900_question_on_polls")]
-    partial class question_on_polls
+    [Migration("20230608105335_ModelChanges-08-06-2023")]
+    partial class ModelChanges08062023
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,28 @@ namespace Webserver.Migrations
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
 
-            modelBuilder.Entity("Webserver.Model.Answers", b =>
+            modelBuilder.Entity("LoginRequest", b =>
+                {
+                    b.Property<int>("LoginId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("LoginId"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("LoginId");
+
+                    b.ToTable("LoginRequests");
+                });
+
+            modelBuilder.Entity("Webserver.Model.Answered", b =>
                 {
                     b.Property<int>("AnsweredID")
                         .ValueGeneratedOnAdd()
@@ -42,6 +63,8 @@ namespace Webserver.Migrations
 
                     b.HasKey("AnsweredID");
 
+                    b.HasIndex("SurveyID");
+
                     b.ToTable("Answers");
                 });
 
@@ -52,9 +75,6 @@ namespace Webserver.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("PollID"));
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -76,46 +96,6 @@ namespace Webserver.Migrations
                     b.HasKey("PollID");
 
                     b.ToTable("Polls");
-                });
-
-            modelBuilder.Entity("Webserver.Model.Question", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("id"));
-
-                    b.Property<string>("description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("heading")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("index")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("survey_id")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("Webserver.Model.QuestionsOnPoll", b =>
-                {
-                    b.Property<int>("PollId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("integer");
-
-                    b.ToTable("questionsOnPolls");
                 });
 
             modelBuilder.Entity("Webserver.Model.User", b =>
@@ -161,6 +141,29 @@ namespace Webserver.Migrations
                     b.HasIndex("PollID");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Webserver.Model.Answered", b =>
+                {
+                    b.HasOne("Webserver.Model.Poll", "Poll")
+                        .WithMany()
+                        .HasForeignKey("SurveyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Poll");
+                });
+
+            modelBuilder.Entity("Webserver.Model.User", b =>
+                {
+                    b.HasOne("Webserver.Model.Poll", null)
+                        .WithMany("Voters")
+                        .HasForeignKey("PollID");
+                });
+
+            modelBuilder.Entity("Webserver.Model.Poll", b =>
+                {
+                    b.Navigation("Voters");
                 });
 #pragma warning restore 612, 618
         }

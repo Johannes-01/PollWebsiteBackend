@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webserver.Model
 {
     public class IntAnswer
     {
+        {
         public int AnswerID { get; set; }
 
         [Key]

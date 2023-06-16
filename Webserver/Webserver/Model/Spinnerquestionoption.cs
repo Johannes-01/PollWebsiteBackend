@@ -5,16 +5,18 @@ namespace Webserver.Model
 {
     public class Spinnerquestionoption
     {
-        [Key]
+        [Key, Required, NotNull]
         public int SpinnerquestionoptionID { get; set; }
+
+
         [Required, NotNull]
         public int Spinnerquestion { get; set; }
-        [Required, NotNull]
+
 
         public string Value { get; set; }
 
-        public string Heading { get; set; }
         [Required, NotNull]
+        public string Heading { get; set; }
 
         public string Description { get; set; }
 
