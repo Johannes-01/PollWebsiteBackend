@@ -77,7 +77,7 @@ namespace Webserver.Controllers
                         // Get back both ids to write it in the QuestionsOnPoll table.
                         foreach (var questionId in questionIds)
                         {
-                            var entry = context.questionsOnPolls.Add(new QuestionsOnPoll
+                            var entry = context.QuestionsOnPolls.Add(new QuestionsOnPoll
                             {
                                 PollId = pollId,
                                 QuestionId = questionId,
@@ -103,6 +103,104 @@ namespace Webserver.Controllers
 
         }
 
+        /// <summary>
+        /// Get own polls from userid.
+        /// </summary>
+        /// <param name="id">UserId.</param>
+        /// <returns>Returns the polls the user created.</returns>
+        [HttpGet("/user/{id}/polls")]
+        public async Task<IActionResult> getUserCreatedPolls([FromRoute] int id)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    var polls = this.context.Polls.Where(poll => poll.UserID == id);
+
+                    if (polls == null)
+                    {
+                        return NotFound("User has no Polls");
+                    }
+                    return Ok(polls);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error fetching own polls");
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error fetching own polls: " + ex);
+                }
+            }
+            else
+            {
+                return Unauthorized("You are not logged in.");
+            }
+        }          
+
+
+
+        // To Do: taking a poll
+        [HttpPost("/polls/question/takequestion")]
+        public async Task<IActionResult> answerQuestions([FromBody] AnswerDTO answer)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    // checks if the poll exits.
+                    var poll = this.context.Polls.FirstOrDefault(poll => poll.PollID == answer.SurveyID);
+                    if(poll == null)
+                    {
+                        return NotFound("No Poll with id: " + answer.SurveyID + " found.");
+                    }
+
+                    // shows if the question exits in the poll.
+                    var questions = this.context.Questions.Where(questions => questions.survey_id == answer.SurveyID).ToList();
+                    
+                    if(questions == null)
+                    {
+                        return NotFound("Poll has no questions.");
+                    }
+                    foreach (var question in questions)
+                    {
+                        if(question.id == answer.QuestionID)
+                        {
+                            var answerObject = context.Answers.Add(new Answer{
+                                QuestionId = answer.QuestionID,
+                                SurveyID = answer.SurveyID,
+                                UserID = answer.UserID,
+                                AnswerType = answer.AnswerType,
+                            });
+                            ////handle question type
+                            //if(answerObject.Entity.AnswerType == AnswerType.Intanswer)
+                            //{
+                            //    //intanswer
+                            //    //adjust dto to get the int/textanswer values
+                            //}
+                            //else
+                            //{
+                            //    //textanswer
+                            //    var textquestion = context.Textanswer.Add(new Textanswer
+                            //    {
+                                    
+                            //    });
+                            //}
+                        }
+                    }
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error taking a poll");
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error creating taking a poll.: " + ex);
+                }
+            }
+            else
+            {
+                return Unauthorized("You are not logged in.");
+            }
+
+        }
 
         [HttpGet("/polls/{id}")]
         public async Task<IActionResult> getPoll(int id)

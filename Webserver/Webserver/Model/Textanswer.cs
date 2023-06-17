@@ -5,7 +5,7 @@ namespace Webserver.Model
     {
         public class Textanswer
         {
-        [Key, Required, NotNull]
+        [Key]
         public int TextanswerID { get; set; }
 
         public int Index { get; set; }

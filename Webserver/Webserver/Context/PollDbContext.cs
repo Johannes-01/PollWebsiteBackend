@@ -23,12 +23,13 @@ namespace Webserver.Context
         public DbSet<User> Users { get; set; }
 
 
-        public DbSet<Answers> Answers { get; set; }
+        public DbSet<Answer> Answers { get; set; }
 
-        public DbSet<QuestionsOnPoll> questionsOnPolls { get; set; }
+        public DbSet<QuestionsOnPoll> QuestionsOnPolls { get; set; }
 
+        public DbSet<Textanswer> Textanswer { get; set; }
 
-        public DbSet<Textanswer> textquestions { get; set; }
+        public DbSet<IntAnswer> IntAnswer { get; set; }
         public DbSet<Question> Questions { get; set; }
     }
 }
