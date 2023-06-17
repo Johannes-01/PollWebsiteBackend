@@ -38,7 +38,7 @@ namespace Webserver.Controllers
         /// <param name="data">The User Data Transfer Object.</param>
         /// <returns>Returns the User data as Json object.</returns>
         [HttpPost("/users/")]
-        public async Task<IActionResult> CreateUser(UserDto data){
+        public async Task<IActionResult> CreateUser([FromBody] UserDto data){
 
             try
             {

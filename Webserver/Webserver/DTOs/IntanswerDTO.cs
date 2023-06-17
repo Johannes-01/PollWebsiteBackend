@@ -7,10 +7,8 @@ namespace Webserver.DTOs
 
 	public class IntanswerDto
 	{
-		public IntanswerDto()
-		{
 			[Required]
-			public int IntanswerID {  get; set; }
+			public int IntanswerID { get; set; }
 
 			public int Index { get; set; }
 
@@ -18,4 +16,4 @@ namespace Webserver.DTOs
 			public int Value { get; set; }
 		}
 	}
-}
+
