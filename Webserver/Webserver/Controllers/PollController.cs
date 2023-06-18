@@ -64,7 +64,7 @@ namespace Webserver.Controllers
                                 Heading = question.Heading,
                                 Index = question.Index,
                                 PollID = pollId,
-                                QuestionType = question.Type,
+                                QuestionType = (QuestionType)question.Type,
                             });
 
                             context.Questions.Add(q.Entity);
@@ -164,9 +164,7 @@ namespace Webserver.Controllers
                         {
                             var answerObject = context.Answers.Add(new Answer{
                                 QuestionID = answer.QuestionID,
-                                SurveyID = answer.SurveyID,
                                 UserID = answer.UserID,
-                                AnswerType = answer.AnswerType,
                             });
                             ////handle question type
                             //if(answerObject.Entity.AnswerType == AnswerType.Intanswer)

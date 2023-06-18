@@ -13,12 +13,6 @@ namespace Webserver.DTOs
         public int UserID { get; set; }
 
         [Required]
-        public Poll Poll { get; set; }
-
-        [Required]
         public int QuestionID { get; set; }
-
-        [Required]
-        public AnswerType AnswerType { get; set; }
     }
 }
