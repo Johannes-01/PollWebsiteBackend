@@ -13,21 +13,12 @@ namespace Webserver.Model
         public int AnswerID { get; set; }
 
         [Required]
-        public int SurveyID { get; set; }
-
-        [Required]
         public int UserID { get; set; }
 
         [Required]
-        public int QuestionId { get; set; }
+        public int QuestionID { get; set; }
 
         [Required]
-        public AnswerType AnswerType { get; set; }
+        public int Value { get; set; }
     }
-}
-
-public enum AnswerType
-{
-    Textanswer = 0,
-    Intanswer = 1,
 }

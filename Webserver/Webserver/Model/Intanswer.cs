@@ -15,11 +15,5 @@ namespace Webserver.Model
 
         [Required]
         public int Value { get; set; }
-
-        [Required]
-        public string Heading { get; set; }
-
-        [Required]
-        public string Description { get; set; }
     }
 }

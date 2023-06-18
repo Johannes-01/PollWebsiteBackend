@@ -4,7 +4,7 @@ namespace Webserver.Model
 {
     public class User
     {
-        [Key, Required]
+        [Key]
         public int UserID { get; set; }
         
         [Required]

@@ -60,17 +60,17 @@ namespace Webserver.Controllers
                         {
                             var q = context.Questions.Add(new Question
                             {
-                                description = question.Description,
-                                heading = question.Heading,
-                                index = question.Index,
-                                survey_id = pollId,
-                                type = question.Type,
+                                Description = question.Description,
+                                Heading = question.Heading,
+                                Index = question.Index,
+                                PollID = pollId,
+                                QuestionType = question.Type,
                             });
 
                             context.Questions.Add(q.Entity);
                             await context.SaveChangesAsync();
 
-                            var questionId = q.Entity.id;
+                            var questionId = q.Entity.QuestionID;
                             questionIds.Add(questionId);
                         }
 
@@ -136,8 +136,6 @@ namespace Webserver.Controllers
             }
         }          
 
-
-
         // To Do: taking a poll
         [HttpPost("/polls/question/takequestion")]
         public async Task<IActionResult> answerQuestions([FromBody] AnswerDTO answer)
@@ -154,7 +152,7 @@ namespace Webserver.Controllers
                     }
 
                     // shows if the question exits in the poll.
-                    var questions = this.context.Questions.Where(questions => questions.survey_id == answer.SurveyID).ToList();
+                    var questions = this.context.Questions.Where(questions => questions.PollID == answer.SurveyID).ToList();
                     
                     if(questions == null)
                     {
@@ -162,10 +160,10 @@ namespace Webserver.Controllers
                     }
                     foreach (var question in questions)
                     {
-                        if(question.id == answer.QuestionID)
+                        if(question.QuestionID == answer.QuestionID)
                         {
                             var answerObject = context.Answers.Add(new Answer{
-                                QuestionId = answer.QuestionID,
+                                QuestionID = answer.QuestionID,
                                 SurveyID = answer.SurveyID,
                                 UserID = answer.UserID,
                                 AnswerType = answer.AnswerType,
@@ -205,7 +203,6 @@ namespace Webserver.Controllers
         [HttpGet("/polls/{id}")]
         public async Task<IActionResult> getPoll(int id)
         {
-            //to do: only let user who created this poll fetch the poll! Same with questions!
             try
             {
                 if (User.Identity.IsAuthenticated)
@@ -241,7 +238,7 @@ namespace Webserver.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    var questions = this.context.Questions.Where(questions => questions.survey_id == id).ToList();
+                    var questions = this.context.Questions.Where(questions => questions.PollID == id).ToList();
 
                     if (questions == null)
                     {
