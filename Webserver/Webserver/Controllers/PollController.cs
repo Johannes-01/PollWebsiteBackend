@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using Webserver.Context;
 using Webserver.DTOs;
 using Webserver.Model;
@@ -137,51 +136,54 @@ namespace Webserver.Controllers
         }          
 
         // To Do: taking a poll
-        [HttpPost("/polls/question/takequestion")]
+        [HttpPost("/user/poll/question/takequestion")]
         public async Task<IActionResult> answerQuestions([FromBody] AnswerDTO answer)
         {
             if (User.Identity.IsAuthenticated)
             {
                 try
                 {
-                    // checks if the poll exits.
-                    var poll = this.context.Polls.FirstOrDefault(poll => poll.PollID == answer.SurveyID);
-                    if(poll == null)
-                    {
-                        return NotFound("No Poll with id: " + answer.SurveyID + " found.");
-                    }
+
+                    //get user id from username use that
+
+                    //// checks if the poll exits.
+                    //var poll = this.context.Polls.FirstOrDefault(poll => poll.PollID == answer.SurveyID);
+                    //if(poll == null)
+                    //{
+                    //    return NotFound("No Poll with id: " + answer.SurveyID + " found.");
+                    //}
 
                     // shows if the question exits in the poll.
-                    var questions = this.context.Questions.Where(questions => questions.PollID == answer.SurveyID).ToList();
-                    
-                    if(questions == null)
-                    {
-                        return NotFound("Poll has no questions.");
-                    }
-                    foreach (var question in questions)
-                    {
-                        if(question.QuestionID == answer.QuestionID)
-                        {
-                            var answerObject = context.Answers.Add(new Answer{
-                                QuestionID = answer.QuestionID,
-                                UserID = answer.UserID,
-                            });
-                            ////handle question type
-                            //if(answerObject.Entity.AnswerType == AnswerType.Intanswer)
-                            //{
-                            //    //intanswer
-                            //    //adjust dto to get the int/textanswer values
-                            //}
-                            //else
-                            //{
-                            //    //textanswer
-                            //    var textquestion = context.Textanswer.Add(new Textanswer
-                            //    {
-                                    
-                            //    });
-                            //}
-                        }
-                    }
+                    //var questions = this.context.Questions.Where(questions => questions.PollID == answer.SurveyID).ToList();
+
+                    //if(questions == null)
+                    //{
+                    //    return NotFound("Poll has no questions.");
+                    //}
+                    //foreach (var question in questions)
+                    //{
+                    //    if(question.QuestionID == answer.QuestionID)
+                    //    {
+                    //        var answerObject = context.Answers.Add(new Answer{
+                    //            QuestionID = answer.QuestionID,
+                    //            UserID = answer.UserID,
+                    //        });
+                    //        ////handle question type
+                    //        //if(answerObject.Entity.AnswerType == AnswerType.Intanswer)
+                    //        //{
+                    //        //    //intanswer
+                    //        //    //adjust dto to get the int/textanswer values
+                    //        //}
+                    //        //else
+                    //        //{
+                    //        //    //textanswer
+                    //        //    var textquestion = context.Textanswer.Add(new Textanswer
+                    //        //    {
+
+                    //        //    });
+                    //        //}
+                    //    }
+                    //}
                     return Ok();
                 }
                 catch (Exception ex)

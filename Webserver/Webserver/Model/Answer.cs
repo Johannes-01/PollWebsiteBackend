@@ -20,5 +20,10 @@ namespace Webserver.Model
 
         [Required]
         public int Value { get; set; }
+
+        /// <summary>
+        /// For when the question is an multiplechoice type and you pass the index you picked. --> Not sure if necassary?
+        /// </summary>
+        //public int Index { get; set; }
     }
 }
