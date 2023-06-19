@@ -5,15 +5,15 @@ namespace Webserver.Model
 {
     public class Sliderquestion
     {
-        [Key]
+        [Key, Required]
         public int SliderquestionID { get; set; }
-        [Required]
-
+        
+        [Required, NotNull]
         public int SurveyID { get; set;}
-        [Required, NotNull]
 
-        public string Heading { get; set; }
         [Required, NotNull]
+        public string Heading { get; set; }
+
 
         public string Description { get; set; }
 

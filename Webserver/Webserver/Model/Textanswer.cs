@@ -1,16 +1,15 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Webserver.Model
 {
-    public class IntAnswer
+    public class Textanswer
     {
         public int AnswerID { get; set; }
 
         [Key]
-        public int IntAnswerID { get; set; }
+        public int TextanswerID { get; set; }
 
-        [Required]
         public int Index { get; set; }
 
         [Required]

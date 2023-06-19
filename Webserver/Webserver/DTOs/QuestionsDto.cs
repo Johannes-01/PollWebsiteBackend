@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Webserver.Model;
 
 namespace Webserver.DTOs
 {
@@ -11,6 +12,6 @@ namespace Webserver.DTOs
 
         public int Index { get; set; }
 
-        public int Type { get; set; }
+        public QuestionType Type { get; set; }
     }
 }

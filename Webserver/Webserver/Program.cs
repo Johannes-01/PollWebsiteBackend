@@ -26,7 +26,8 @@ builder.Services.AddAuthentication("Cookies")
         options.ExpireTimeSpan= TimeSpan.FromMinutes(30);
         options.LoginPath = "/login";
         options.LogoutPath = "/logout";
-	options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.HttpOnly = false;
     });
 
 #if DEBUG

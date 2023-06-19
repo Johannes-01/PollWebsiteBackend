@@ -5,17 +5,32 @@ namespace Webserver.Model
     public class Question
     {
         [Key]
-        public int id { get; set; }
+        public int QuestionID { get; set; }
+        
         [Required]
+        public string Heading { get; set; }
 
-        public string heading { get; set; }
+        public int PollID { get; set; }
 
-        public int survey_id { get; set; }
+        public string? Description { get; set; }
 
-        public string? description { get; set; }
+        /// <summary>
+        /// Index - shows the order the Questions gets displayed in the Poll.
+        /// </summary>
+        public int Index { get; set; }
 
-        public int index { get; set; }
+        /// <summary>
+        /// Determines the Question type.
+        /// </summary>
+        public QuestionType QuestionType { get; set; }   
+    }
 
-        public int type { get; set; }
+    public enum QuestionType
+    {
+        TextQuestion = 0,
+
+        MultipleChoiceQuestion = 1,
+
+        SliderQuestion = 2,
     }
 }

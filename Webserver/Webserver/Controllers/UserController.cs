@@ -109,7 +109,7 @@ namespace Webserver.Controllers
             try
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                return Ok();
+                return Redirect("/login");
             }
             catch (Exception ex)
             {
@@ -120,7 +120,7 @@ namespace Webserver.Controllers
         }
 
         [HttpPost("/login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
         {
 
             // Validate the request
