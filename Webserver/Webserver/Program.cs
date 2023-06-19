@@ -26,21 +26,12 @@ builder.Services.AddAuthentication("Cookies")
         options.ExpireTimeSpan= TimeSpan.FromMinutes(30);
         options.LoginPath = "/login";
         options.LogoutPath = "/logout";
+	options.Cookie.SameSite = SameSiteMode.None;
     });
-
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: "MyAllowSpecificOrigins", policy =>
-    {
-        policy.WithOrigins("https://basis-und-internettechnologien.vercel.app/").AllowAnyHeader();
-    });
-});
-
 
 #if DEBUG
 // Add CORS policy to allow request from any origin 
-builder.Services.AddCors(options =>
+/*builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
         builder =>
@@ -49,13 +40,14 @@ builder.Services.AddCors(options =>
                 .AllowAnyHeader()
                 .AllowAnyMethod();
         });
-});
+});*/
 #endif
 
 var app = builder.Build();
 
-app.UseCors();
-
+app.UseCors(
+	builder => builder.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials()
+);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

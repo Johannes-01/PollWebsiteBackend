@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "uDXFM/gfUKYeV+moQZ5eyNWKaXuUR+8iaNGTp1rqq4A2PKRvKI8f9E9NEa942JEDq/HlQIXxCCfwOYaMkEPFww==",
+  "dgSpecHash": "9V+FJJP5JYuNZRUcpVHisHCnrql8yJWMbtHGTqWODExcPz+Hj7I9E5apMMUAgeBqqDxBFUn4UNEx+TCwEkC4Jw==",
   "success": true,
   "projectFilePath": "/root/PollWebsiteBackend/Webserver/Webserver/Webserver.csproj",
   "expectedPackageFiles": [
@@ -30,6 +30,7 @@
     "/root/.nuget/packages/microsoft.net.http.headers/2.2.0/microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "/root/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
     "/root/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
+    "/root/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/root/.nuget/packages/npgsql/7.0.4/npgsql.7.0.4.nupkg.sha512",
     "/root/.nuget/packages/npgsql.entityframeworkcore.postgresql/7.0.4/npgsql.entityframeworkcore.postgresql.7.0.4.nupkg.sha512",
     "/root/.nuget/packages/swashbuckle.aspnetcore/6.2.3/swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
@@ -41,7 +42,7 @@
     "/root/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/root/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
     "/root/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
-    "/root/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.16/microsoft.netcore.app.host.linux-x64.6.0.16.nupkg.sha512"
+    "/root/.nuget/packages/microsoft.netcore.app.host.linux-x64/6.0.18/microsoft.netcore.app.host.linux-x64.6.0.18.nupkg.sha512"
   ],
   "logs": []
 }

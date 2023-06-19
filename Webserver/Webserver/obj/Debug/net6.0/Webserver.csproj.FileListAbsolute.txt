@@ -101,3 +101,4 @@ C:/Users/johan/source/repos/Johannes-01/PollWebsiteBackend/Webserver/Webserver/o
 /root/PollWebsiteBackend/Webserver/Webserver/obj/Debug/net6.0/Webserver.pdb
 /root/PollWebsiteBackend/Webserver/Webserver/obj/Debug/net6.0/Webserver.genruntimeconfig.cache
 /root/PollWebsiteBackend/Webserver/Webserver/obj/Debug/net6.0/ref/Webserver.dll
+/root/PollWebsiteBackend/Webserver/Webserver/bin/Debug/net6.0/Newtonsoft.Json.dll
