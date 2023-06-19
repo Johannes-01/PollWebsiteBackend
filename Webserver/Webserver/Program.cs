@@ -27,6 +27,7 @@ builder.Services.AddAuthentication("Cookies")
         options.LoginPath = "/login";
         options.LogoutPath = "/logout";
         options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.HttpOnly = false;
     });
 
 
