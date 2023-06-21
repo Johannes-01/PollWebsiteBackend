@@ -42,13 +42,13 @@ namespace Webserver.Controllers
 
             try
             {
-                var usernames = this.context.Users.Where(users => users.UserName == data.Username).ToList();
+                var usernames = this.context.User.Where(users => users.UserName == data.Username).ToList();
                 if (usernames.Any())
                 {
                     return StatusCode(StatusCodes.Status403Forbidden, "Username already taken.");
                 }
 
-                var user = context.Users.Add(new User
+                var user = context.User.Add(new User
                 {
                     Lastname = data.Lastname,
                     Firstname = data.Firstname,
@@ -83,7 +83,7 @@ namespace Webserver.Controllers
             {
                 var username = getUsernameFromSession();
 
-                var user = this.context.Users.FirstOrDefault(user => user.UserID == id);
+                var user = this.context.User.FirstOrDefault(user => user.UserID == id);
 
                 if (user == null)
                 {
@@ -132,7 +132,7 @@ namespace Webserver.Controllers
             //trying to find a user
             try
             {
-                var user = this.context.Users.SingleOrDefault(x => x.UserName == request.Username && x.Password == request.Password);
+                var user = this.context.User.SingleOrDefault(x => x.UserName == request.Username && x.Password == request.Password);
                 if(user != null)
                 {
                     var claim = new List<Claim>()

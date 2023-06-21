@@ -36,7 +36,7 @@ namespace Webserver.Controllers
 
                 try
                 {
-                    var poll = context.Polls.Add(new Poll
+                    var poll = context.Poll.Add(new Poll
                     {
                         UserID = data.Author,
                         Description = data.Description,
@@ -46,7 +46,7 @@ namespace Webserver.Controllers
                         Created = DateTime.UtcNow,
                     });
 
-                    context.Polls.Add(poll.Entity);
+                    context.Poll.Add(poll.Entity);
                     await context.SaveChangesAsync();
 
                     var pollId = poll.Entity.PollID;
@@ -57,7 +57,7 @@ namespace Webserver.Controllers
                     {
                         foreach (var question in data.questions)
                         {
-                            var q = context.Questions.Add(new Question
+                            var q = context.Question.Add(new Question
                             {
                                 Description = question.Description,
                                 Heading = question.Heading,
@@ -66,7 +66,7 @@ namespace Webserver.Controllers
                                 QuestionType = (QuestionType)question.Type,
                             });
 
-                            context.Questions.Add(q.Entity);
+                            context.Question.Add(q.Entity);
                             await context.SaveChangesAsync();
 
                             var questionId = q.Entity.QuestionID;
@@ -76,7 +76,7 @@ namespace Webserver.Controllers
                         // Get back both ids to write it in the QuestionsOnPoll table.
                         foreach (var questionId in questionIds)
                         {
-                            var entry = context.QuestionsOnPolls.Add(new QuestionsOnPoll
+                            var entry = context.QuestionOnPoll.Add(new QuestionsOnPoll
                             {
                                 PollId = pollId,
                                 QuestionId = questionId,
@@ -114,7 +114,7 @@ namespace Webserver.Controllers
             {
                 try
                 {
-                    var polls = this.context.Polls.Where(poll => poll.UserID == id);
+                    var polls = this.context.Poll.Where(poll => poll.UserID == id);
 
                     if (polls == null)
                     {
@@ -208,7 +208,7 @@ namespace Webserver.Controllers
                 if (User.Identity.IsAuthenticated)
                 {
 
-                    var poll = this.context.Polls.FirstOrDefault(poll => poll.PollID == id);
+                    var poll = this.context.Poll.FirstOrDefault(poll => poll.PollID == id);
 
                     if (poll == null)
                     {
@@ -238,7 +238,7 @@ namespace Webserver.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    var questions = this.context.Questions.Where(questions => questions.PollID == id).ToList();
+                    var questions = this.context.Question.Where(questions => questions.PollID == id).ToList();
 
                     if (questions == null)
                     {

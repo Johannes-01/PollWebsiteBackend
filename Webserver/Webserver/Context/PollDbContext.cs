@@ -18,14 +18,14 @@ namespace Webserver.Context
             //modelBuilder.Entity<IntAnswer>().HasOne(i => i.AnswerID).WithOne().HasForeignKey();
         }
 
-        public DbSet<Poll> Polls { get; set; }
+        public DbSet<Poll> Poll { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
 
-        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Answer> Answer { get; set; }
 
-        public DbSet<QuestionsOnPoll> QuestionsOnPolls { get; set; }
+        public DbSet<QuestionsOnPoll> QuestionOnPoll { get; set; }
 
-        public DbSet<Question> Questions { get; set; }
+        public DbSet<Question> Question { get; set; }
     }
 }

@@ -30,43 +30,18 @@ namespace Webserver.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("AnswerID"));
 
-                    b.Property<int>("AnswerType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SurveyID")
+                    b.Property<int>("QuestionID")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserID")
                         .HasColumnType("integer");
 
-                    b.HasKey("AnswerID");
-
-                    b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("Webserver.Model.IntAnswer", b =>
-                {
-                    b.Property<int>("IntAnswerID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("IntAnswerID"));
-
-                    b.Property<int>("AnswerID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Index")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Value")
                         .HasColumnType("integer");
 
-                    b.HasKey("IntAnswerID");
+                    b.HasKey("AnswerID");
 
-                    b.ToTable("IntAnswer");
+                    b.ToTable("Answer");
                 });
 
             modelBuilder.Entity("Webserver.Model.Poll", b =>
@@ -99,36 +74,36 @@ namespace Webserver.Migrations
 
                     b.HasKey("PollID");
 
-                    b.ToTable("Polls");
+                    b.ToTable("Poll");
                 });
 
             modelBuilder.Entity("Webserver.Model.Question", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("QuestionID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("QuestionID"));
 
-                    b.Property<string>("description")
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("heading")
+                    b.Property<string>("Heading")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("index")
+                    b.Property<int>("Index")
                         .HasColumnType("integer");
 
-                    b.Property<int>("survey_id")
+                    b.Property<int>("PollID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("type")
+                    b.Property<int>("QuestionType")
                         .HasColumnType("integer");
 
-                    b.HasKey("id");
+                    b.HasKey("QuestionID");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Question");
                 });
 
             modelBuilder.Entity("Webserver.Model.QuestionsOnPoll", b =>
@@ -147,29 +122,7 @@ namespace Webserver.Migrations
 
                     b.HasKey("QuestionOnPollId");
 
-                    b.ToTable("QuestionsOnPolls");
-                });
-
-            modelBuilder.Entity("Webserver.Model.Textanswer", b =>
-                {
-                    b.Property<int>("TextanswerID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("TextanswerID"));
-
-                    b.Property<int>("AnswerID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Index")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("integer");
-
-                    b.HasKey("TextanswerID");
-
-                    b.ToTable("Textanswer");
+                    b.ToTable("QuestionOnPoll");
                 });
 
             modelBuilder.Entity("Webserver.Model.User", b =>
@@ -209,7 +162,7 @@ namespace Webserver.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }

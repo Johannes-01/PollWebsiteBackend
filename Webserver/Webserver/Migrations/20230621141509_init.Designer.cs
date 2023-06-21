@@ -12,8 +12,8 @@ using Webserver.Context;
 namespace Webserver.Migrations
 {
     [DbContext(typeof(PollDbContext))]
-    [Migration("20230614221234_TextAnswerAndIntAnswer")]
-    partial class TextAnswerAndIntAnswer
+    [Migration("20230621141509_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,57 +25,26 @@ namespace Webserver.Migrations
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
 
-            modelBuilder.Entity("Webserver.Model.Answers", b =>
+            modelBuilder.Entity("Webserver.Model.Answer", b =>
                 {
-                    b.Property<int>("AnsweredID")
+                    b.Property<int>("AnswerID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("AnsweredID"));
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("AnswerID"));
 
-                    b.Property<int>("AnswerType")
+                    b.Property<int>("QuestionID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SurveyID")
-                        .HasColumnType("integer");
-
-                    b.Property<int[]>("UserID")
-                        .IsRequired()
-                        .HasColumnType("integer[]");
-
-                    b.HasKey("AnsweredID");
-
-                    b.ToTable("Answers");
-                });
-
-            modelBuilder.Entity("Webserver.Model.IntAnswer", b =>
-                {
-                    b.Property<int>("IntAnswerID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("IntAnswerID"));
-
-                    b.Property<int>("AnsweredID")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Heading")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Index")
+                    b.Property<int>("UserID")
                         .HasColumnType("integer");
 
                     b.Property<int>("Value")
                         .HasColumnType("integer");
 
-                    b.HasKey("IntAnswerID");
+                    b.HasKey("AnswerID");
 
-                    b.ToTable("intanswers");
+                    b.ToTable("Answer");
                 });
 
             modelBuilder.Entity("Webserver.Model.Poll", b =>
@@ -108,36 +77,36 @@ namespace Webserver.Migrations
 
                     b.HasKey("PollID");
 
-                    b.ToTable("Polls");
+                    b.ToTable("Poll");
                 });
 
             modelBuilder.Entity("Webserver.Model.Question", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("QuestionID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("QuestionID"));
 
-                    b.Property<string>("description")
+                    b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("heading")
+                    b.Property<string>("Heading")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("index")
+                    b.Property<int>("Index")
                         .HasColumnType("integer");
 
-                    b.Property<int>("survey_id")
+                    b.Property<int>("PollID")
                         .HasColumnType("integer");
 
-                    b.Property<int>("type")
+                    b.Property<int>("QuestionType")
                         .HasColumnType("integer");
 
-                    b.HasKey("id");
+                    b.HasKey("QuestionID");
 
-                    b.ToTable("Questions");
+                    b.ToTable("Question");
                 });
 
             modelBuilder.Entity("Webserver.Model.QuestionsOnPoll", b =>
@@ -156,37 +125,7 @@ namespace Webserver.Migrations
 
                     b.HasKey("QuestionOnPollId");
 
-                    b.ToTable("questionsOnPolls");
-                });
-
-            modelBuilder.Entity("Webserver.Model.TextAnswer", b =>
-                {
-                    b.Property<int>("TextAnswerID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseSerialColumn(b.Property<int>("TextAnswerID"));
-
-                    b.Property<int>("AnsweredID")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Heading")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Index")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SurveyID")
-                        .HasColumnType("integer");
-
-                    b.HasKey("TextAnswerID");
-
-                    b.ToTable("textquestions");
+                    b.ToTable("QuestionOnPoll");
                 });
 
             modelBuilder.Entity("Webserver.Model.User", b =>
@@ -226,7 +165,7 @@ namespace Webserver.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }
