@@ -139,6 +139,7 @@ namespace Webserver.Controllers
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
                         new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim("id", user.UserID.ToString()),
                     };
 
                     var identity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);

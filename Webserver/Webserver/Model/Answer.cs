@@ -19,7 +19,7 @@ namespace Webserver.Model
         public int QuestionID { get; set; }
 
         [Required]
-        public int Value { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// For when the question is an multiplechoice type and you pass the index you picked. --> Not sure if necassary?

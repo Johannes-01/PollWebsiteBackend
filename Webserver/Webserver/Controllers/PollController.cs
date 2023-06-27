@@ -164,69 +164,84 @@ namespace Webserver.Controllers
             }
         }          
 
+
         // To Do: taking a poll
-        [HttpPost("/user/poll/question/takequestion")]
-        public async Task<IActionResult> answerQuestions([FromBody] AnswerDTO answer)
+        [HttpPost("/question/{questionid}/takequestion")]
+        public async Task<IActionResult> answerQuestions([FromRoute] int questionid, AnswerDTO answer)
         {
             if (User.Identity.IsAuthenticated)
             {
                 try
                 {
+                    var claim = User.Claims.FirstOrDefault(x => x.Type == "id").Value;
+                    _ = int.TryParse(claim, out int userId);
 
-                    //get user id from username use that
+                    var questions = this.context.Question.Where(questions => questions.QuestionID == questionid).ToList();
+                    if(questions == null)
+                    {
+                        return NotFound("There is no question with this id.");
+                    }
 
-                    //// checks if the poll exits.
-                    //var poll = this.context.Polls.FirstOrDefault(poll => poll.PollID == answer.SurveyID);
-                    //if(poll == null)
-                    //{
-                    //    return NotFound("No Poll with id: " + answer.SurveyID + " found.");
-                    //}
+                    var answerEntity = this.context.Answer.AddAsync(new Answer
+                    {
+                        QuestionID = questionid,
+                        UserID = userId,
+                        Value = answer.Value,
+                    });
+                    await context.SaveChangesAsync();
 
-                    // shows if the question exits in the poll.
-                    //var questions = this.context.Questions.Where(questions => questions.PollID == answer.SurveyID).ToList();
-
-                    //if(questions == null)
-                    //{
-                    //    return NotFound("Poll has no questions.");
-                    //}
-                    //foreach (var question in questions)
-                    //{
-                    //    if(question.QuestionID == answer.QuestionID)
-                    //    {
-                    //        var answerObject = context.Answers.Add(new Answer{
-                    //            QuestionID = answer.QuestionID,
-                    //            UserID = answer.UserID,
-                    //        });
-                    //        ////handle question type
-                    //        //if(answerObject.Entity.AnswerType == AnswerType.Intanswer)
-                    //        //{
-                    //        //    //intanswer
-                    //        //    //adjust dto to get the int/textanswer values
-                    //        //}
-                    //        //else
-                    //        //{
-                    //        //    //textanswer
-                    //        //    var textquestion = context.Textanswer.Add(new Textanswer
-                    //        //    {
-
-                    //        //    });
-                    //        //}
-                    //    }
-                    //}
-                    return Ok();
+                    return CreatedAtAction(nameof(answerQuestions), new { id = answerEntity.Result.Entity.AnswerID}, answerEntity.Result.Entity.Value);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error taking a poll");
+                    _logger.LogError(ex, "Error taking a question");
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Error creating taking a poll.: " + ex);
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error creating the answer.: " + ex);
                 }
             }
             else
             {
                 return Unauthorized("You are not logged in.");
             }
+        }
 
+        // To Do.
+        [HttpGet("/question/{id}/getAnswers")]
+        public async Task<IActionResult> getAnswersToQuestion([FromRoute] int id)
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    var question = this.context.Question.Where(questions => questions.QuestionID == id);
+
+                    if (question == null)
+                    {
+                        return NotFound("No Questions with the specified id:"+ id);
+                    }
+
+                    var answers = this.context.Answer.Where(answers => answers.QuestionID == id).ToList();
+                    
+                    if(answers.Count > 0)
+                    {
+                        return Ok(answers);
+                    }
+                    else
+                    {
+                        return NotFound("No answers to this question.");
+                    }
+                }
+                else
+                {
+                    return Unauthorized("You are not logged in.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error trying to fetch questions: " + ex);
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error trying to fetch questions.: " + ex);
+            }
         }
 
         [HttpGet("/polls/{id}")]
