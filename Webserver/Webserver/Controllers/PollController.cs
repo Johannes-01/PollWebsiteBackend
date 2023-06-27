@@ -102,6 +102,35 @@ namespace Webserver.Controllers
 
         }
 
+        [HttpGet("/polls")]
+        public async Task<IActionResult> getAllPolls()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                try
+                {
+                    var polls = this.context.Poll.ToList();
+
+                    if (polls == null || polls.Count == 0)
+                    {
+                        return NotFound("No Polls created.");
+                    }
+                    return Ok(polls);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error fetching polls");
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error fetching polls: " + ex);
+                }
+            }
+            else
+            {
+                return Unauthorized("You are not logged in.");
+            }
+
+        }
+
         /// <summary>
         /// Get own polls from userid.
         /// </summary>
