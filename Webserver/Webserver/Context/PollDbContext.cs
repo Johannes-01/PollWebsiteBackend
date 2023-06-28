@@ -27,5 +27,7 @@ namespace Webserver.Context
         public DbSet<QuestionsOnPoll> QuestionOnPoll { get; set; }
 
         public DbSet<Question> Question { get; set; }
+
+        public DbSet<QuestionOption> questionOptions { get; set; }
     }
 }

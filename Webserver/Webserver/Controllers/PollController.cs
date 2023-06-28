@@ -53,7 +53,7 @@ namespace Webserver.Controllers
 
                     List<int> questionIds = new List<int>();
 
-                    if(data.questions != null && data.questions.Count > 0)
+                    if (data.questions != null && data.questions.Count > 0)
                     {
                         foreach (var question in data.questions)
                         {
@@ -162,12 +162,12 @@ namespace Webserver.Controllers
             {
                 return Unauthorized("You are not logged in.");
             }
-        }          
+        }
 
 
         // To Do: taking a poll
         [HttpPost("/question/{questionid}/takequestion")]
-        public async Task<IActionResult> answerQuestions([FromRoute] int questionid, AnswerDTO answer)
+        public async Task<IActionResult> answerQuestions([FromRoute] int questionid, [FromBody] AnswerDTO answer)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -302,6 +302,43 @@ namespace Webserver.Controllers
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error trying to fetch questions.: " + ex);
             }
+        }
+
+        [HttpPost("/question/{questionid}/questionOptions")]
+        public async Task<IActionResult> createQuestionOptions([FromRoute] int questionid, [FromBody] QuestionOptionDto questionOptions)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+
+                try
+                {
+                    var questionOption = context.questionOptions.Add(new QuestionOption
+                    {
+                        QuestionID = questionid,
+                        Value = questionOptions.Value
+                    });
+
+                    await context.SaveChangesAsync();
+
+                    return CreatedAtAction(nameof(createPoll), new { id = questionOption.Entity.QuestionOptionId}, questionOption.Entity);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error creating a QuestionOption");
+
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error creating a QuestionOption.: " + ex);
+                }
+            }
+            else
+            {
+                return Unauthorized("You are not logged in.");
+            }
+
         }
     }
 }

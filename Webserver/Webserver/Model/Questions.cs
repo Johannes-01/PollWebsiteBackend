@@ -27,10 +27,10 @@ namespace Webserver.Model
 
     public enum QuestionType
     {
-        TextQuestion = 0,
+        TextQuestion = 1,
 
-        MultipleChoiceQuestion = 1,
+        MultipleChoiceQuestion = 2,
 
-        SliderQuestion = 2,
+        SliderQuestion = 0,
     }
 }
