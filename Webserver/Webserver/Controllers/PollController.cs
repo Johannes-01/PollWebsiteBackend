@@ -36,9 +36,12 @@ namespace Webserver.Controllers
 
                 try
                 {
+                    var claim = User.Claims.FirstOrDefault(x => x.Type == "id").Value;
+                    _ = int.TryParse(claim, out int userId);
+
                     var poll = context.Poll.Add(new Poll
                     {
-                        UserID = data.Author,
+                        UserID = userId,
                         Description = data.Description,
                         Title = data.Title,
                         StartDate = data.startDate.ToUniversalTime(),
@@ -205,7 +208,6 @@ namespace Webserver.Controllers
             }
         }
 
-        // To Do.
         [HttpGet("/question/{id}/getAnswers")]
         public async Task<IActionResult> getAnswersToQuestion([FromRoute] int id)
         {

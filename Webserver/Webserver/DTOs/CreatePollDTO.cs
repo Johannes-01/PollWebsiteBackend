@@ -10,9 +10,6 @@ namespace Webserver.DTOs
         [Required]
         public string Description { get; set; }
         
-        [Required]
-        public int Author { get; set; }
-
         [DisplayFormat(DataFormatString = "{dd/MM/yyyy}")]
         public DateTime startDate { get; set; }
 
@@ -22,33 +19,3 @@ namespace Webserver.DTOs
         public List<QuestionsDto>? questions { get; set; }
     }
 }
-
-/*{
-  "title": "My Poll",
-  "description": "Description of my poll",
-  "author": null,
-  "startDate": null,
-  "endDate": null,
-  "questions": [
-    {
-      "index": 0,
-      "type": 2,
-      "value": [
-        "option 1",
-        "new option",
-        "option 3",
-        "option 2",
-      ],
-    },
-    {
-      "index": 1,
-      "type": 1,
-      "value": "ksldjf lskdj sdlf.",
-    },
-    {
-      "index": 2,
-      "type": 0,
-      "value": "44",
-    },
-  ],
-}*/
