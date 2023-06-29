@@ -111,13 +111,9 @@ namespace Webserver.Controllers
                     return NotFound();
                 }
 
-                var temp = new User
-                {
-                    Password = user.Password.Remove(0),
-                };
+                user.Password = "";
 
-
-                return Ok(temp);
+                return Ok(user);
             }
             else
             {
