@@ -76,26 +76,48 @@ namespace Webserver.Controllers
         /// </summary>
         /// <param name="id">The User ID.</param>
         /// <returns>Returns the User data as Json object, only if the Logged in User is the creator of the poll.</returns>
+        [HttpGet("/users/self")]
+        public IActionResult GetUserSelf()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var claim = User.Claims.FirstOrDefault(x => x.Type == "id").Value;
+                _ = int.TryParse(claim, out int userId);
+
+                var user = this.context.User.FirstOrDefault(user => user.UserID == userId);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }
+            else
+            {
+                return Unauthorized("You are not logged in.");
+            }
+        }
+
         [HttpGet("/users/{id}")]
         public IActionResult GetUser(int id)
         {
             if (User.Identity.IsAuthenticated)
             {
-                var username = getUsernameFromSession();
-
                 var user = this.context.User.FirstOrDefault(user => user.UserID == id);
 
                 if (user == null)
                 {
                     return NotFound();
                 }
-                
-                if(username != user.UserName)
-                {
-                    return Unauthorized("The User is not allowed to access this poll, because he is not the creator.");
-                }
 
-                return Ok(user);
+                var temp = new User
+                {
+                    Password = user.Password.Remove(0),
+                };
+
+
+                return Ok(temp);
             }
             else
             {
