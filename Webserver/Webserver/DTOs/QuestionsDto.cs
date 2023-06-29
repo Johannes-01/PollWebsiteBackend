@@ -13,5 +13,7 @@ namespace Webserver.DTOs
         public int Index { get; set; }
 
         public QuestionType Type { get; set; }
+
+        public string[]? value { get; set; }
     }
 }

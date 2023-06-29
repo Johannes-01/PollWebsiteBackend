@@ -74,6 +74,28 @@ namespace Webserver.Controllers
 
                             var questionId = q.Entity.QuestionID;
                             questionIds.Add(questionId);
+                            
+                            if (question.Type == QuestionType.MultipleChoiceQuestion)
+                            {
+                                // add value and call questionoptions --> for multiple option questions
+                                try
+                                {
+                                    foreach (var value in question.value)
+                                    {
+                                        var questionOption = context.questionOptions.Add(new QuestionOption
+                                        {
+                                            QuestionID = questionId,
+                                            Value = value,
+                                        });
+                                        await context.SaveChangesAsync();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    BadRequest("no values for multiple choice question.");
+                                }
+
+                            }
                         }
 
                         // Get back both ids to write it in the QuestionsOnPoll table.
@@ -306,8 +328,8 @@ namespace Webserver.Controllers
             }
         }
 
-        [HttpPost("/question/{questionid}/questionOptions")]
-        public async Task<IActionResult> createQuestionOptions([FromRoute] int questionid, [FromBody] QuestionOptionDto questionOptions)
+        [HttpGet("/question/{questionid}/questionOptions")]
+        public async Task<IActionResult> getQuestionOptions([FromRoute] int questionid)
         {
             if (!ModelState.IsValid)
             {
@@ -316,24 +338,16 @@ namespace Webserver.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-
                 try
                 {
-                    var questionOption = context.questionOptions.Add(new QuestionOption
-                    {
-                        QuestionID = questionid,
-                        Value = questionOptions.Value
-                    });
-
-                    await context.SaveChangesAsync();
-
-                    return CreatedAtAction(nameof(createPoll), new { id = questionOption.Entity.QuestionOptionId}, questionOption.Entity);
+                    var questionOptions = this.context.questionOptions.Where(questionOptions => questionOptions.QuestionID == questionid).ToList();
+                    return Ok(questionOptions);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Error creating a QuestionOption");
+                    _logger.LogError(ex, "Error trying to get a QuestionOption from id: "+questionid);
 
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Error creating a QuestionOption.: " + ex);
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Error trying to get a QuestionOption from id: " + questionid+ ": " + ex);
                 }
             }
             else
