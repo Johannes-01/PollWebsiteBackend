@@ -39,13 +39,15 @@ namespace Webserver.Controllers
         /// <returns>Returns the User data as Json object.</returns>
         [HttpPost("/users/")]
         public async Task<IActionResult> CreateUser([FromBody] UserDto data){
-
             try
             {
-                var usernames = this.context.User.Where(users => users.UserName == data.Username).ToList();
-                if (usernames.Any())
+                var username = this.context.User.Where(users => users.UserName == data.Username);
+                foreach (var i in username)
                 {
-                    return StatusCode(StatusCodes.Status403Forbidden, "Username already taken.");
+                    if(i.UserName == data.Username)
+                    {
+                        return StatusCode(StatusCodes.Status403Forbidden, "Username already taken.");
+                    }
                 }
 
                 var user = context.User.Add(new User
